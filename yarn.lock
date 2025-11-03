@@ -5799,11 +5799,6 @@ react-native-vector-icons@^10.3.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
-react-native-voice-to-text@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.npmjs.org/react-native-voice-to-text/-/react-native-voice-to-text-0.1.4.tgz"
-  integrity sha512-rBDgX9Cag+/lV+i11qcElsqfsekeRuhJvPIz7aX8P95Od3fvWd9sR9M6axDpOl+RE8MMa15RIx5Dty+5mPMHGg==
-
 react-native@*, "react-native@^0.0.0-0 || >=0.65 <1.0", "react-native@>= 0.62", react-native@>=0.42.0, react-native@>=0.59, react-native@0.79.1:
   version "0.79.1"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.79.1.tgz"

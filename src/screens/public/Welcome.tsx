@@ -12,6 +12,7 @@ import {
     StatusBar,
     StyleSheet,
     Text,
+    TouchableOpacity,
     useColorScheme,
     View,
 } from 'react-native';
@@ -23,6 +24,7 @@ import {
     LearnMoreLinks,
     ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import Icon from 'react-native-vector-icons/Ionicons';
 import BuddyContainer from '../../components/BuddyContainer';
 import { colors, screenHeight, screenWidth } from '../../utils/Constants';
 import BuddyCard from '../../components/BuddyCard';
@@ -35,48 +37,50 @@ function Welcome(): React.JSX.Element {
     const navigation = useNavigation();
 
     return <>
-        <ScrollView keyboardShouldPersistTaps="handled">
-            <Image source={WelcomeImage} style={styles.logo} />
+        <ScrollView style={styles.imageViewContainer} keyboardShouldPersistTaps="handled">
+            <View style={styles.imageView}>
+                <Image source={WelcomeImage} style={styles.image} />
+            </View>
+
+            <View style={styles.buttonViewContainer}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('login')}>
+                    <Text style={styles.buttonText}>GET STARTED</Text>
+                    <Icon name="arrow-forward" size={20} color="white" />
+                </TouchableOpacity>
+            </View>
         </ScrollView>
     </>;
 }
 
 const styles = StyleSheet.create({
-    logoContainer: {
+    imageViewContainer: {
+        backgroundColor: '#17135c',
+        
+    },
+    imageView: {
+        
+    },
+    image: {
+
+    },
+    buttonViewContainer: {
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
     },
-    logo: {
-        width: screenWidth,
-        height: screenHeight,
-        objectFit: 'cover',
-    },
-    titleContainer: {
+    button: {
+        flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 25
+        backgroundColor: '#1E90FF', // Blue color
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 30,
+        elevation: 5,
     },
-    title: {
-        fontSize: 22,
-        color: colors.pink
-    },
-    cardContainer: {
-        marginTop: 15
-    },
-    imageBuddyContainer: {
-        alignItems: 'center'
-    },
-    imageBuddy: {
-        width: screenWidth * 0.5,
-        height: 300,
-        objectFit: 'contain',
-    },
-    buttonBuddy: {
-        alignSelf: 'center',
-        // width: screenWidth * 0.85,
-        width: '100%',
-        marginVertical: 50
-    },
-    langBuddy: {
-        alignSelf: 'center',
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
+        marginRight: 10
     }
 });
 
