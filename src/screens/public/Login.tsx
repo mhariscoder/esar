@@ -76,9 +76,18 @@ export default function LoginScreen() {
           <Text style={styles.loginBtnText}>LOG IN</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('forgot-password')}>
           <Text style={styles.forgotText}>FORGOT PASSWORD</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('email-verification')}>
+          <Text style={styles.forgotText}>EMAIL VERIFICATION</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('reset-your-password')}>
+          <Text style={styles.forgotText}>RESET YOUR PASSWORD</Text>
+        </TouchableOpacity>
+        
       </View>
     </ScrollView>
   );
@@ -112,7 +121,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: "#d3e4ff",
-    fontSize: 13,
+    fontSize: 10,
     textAlign: "center",
     marginBottom: 20,
     lineHeight: 18,
@@ -137,7 +146,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   input: {
-    backgroundColor: "#062b62",
+    backgroundColor: "#1689FE1F",
     width: "100%",
     height: 45,
     paddingHorizontal: 15,
@@ -146,7 +155,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   passwordBox: {
-    backgroundColor: "#062b62",
+    backgroundColor: "#1689FE1F",
     width: "100%",
     height: 45,
     paddingHorizontal: 15,
@@ -161,7 +170,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   dropdownContainer: {
-    backgroundColor: "#062b62",
+    backgroundColor: "#1689FE1F",
     borderRadius: 8,
     width: "100%",
     marginBottom: 20,
@@ -174,7 +183,7 @@ const styles = StyleSheet.create({
   },
   loginBtn: {
     backgroundColor: "#2ea8ff",
-    paddingVertical: 12,
+    paddingVertical: 15,
     width: "50%",
     alignItems: "center",
     borderRadius: 30,
@@ -182,7 +191,7 @@ const styles = StyleSheet.create({
   },
   loginBtnText: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: "600",
   },
   forgotText: {

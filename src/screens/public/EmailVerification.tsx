@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from "react-native";
+import OTPTextView from "react-native-otp-textinput";
 import Icon from "react-native-vector-icons/Feather";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function DigitalDocumentsScreen({ navigation }) {
+export default function EmailVerificationScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
 
@@ -14,31 +15,42 @@ export default function DigitalDocumentsScreen({ navigation }) {
         </TouchableOpacity>
 
         {/* PAGE TITLE */}
-        <Text style={styles.pageTitle}>FORGOT PASSWORD</Text>
+        <Text style={styles.pageTitle}>EMAIL VERIFICATION</Text>
       </View>
 
       <View style={styles.innercontainer}>
         {/* Title */}
         <Text style={styles.title}>
-          EMAIL ADDRESS HERE
+          GET YOUR CODE
         </Text>
 
         {/* Description */}
         <Text style={styles.description}>
-          Enter The Email Address Associated With Your Account
+          Please Enter The 4 Digit Code That Send To Your Email Address.
         </Text>
 
-        {/* Registration */}
-        <Text style={styles.label}>EMAIL ADDRESS*</Text>
-        <TextInput
-          placeholder="example@example.com"
-          placeholderTextColor="#9bb1d9"
-          style={styles.input}
+        <OTPTextView
+            inputCount={4}
+            textInputStyle={{
+                backgroundColor: '#1689FE1F',
+                borderBottomWidth: 0,
+                width: 42,
+                height: 42,
+                borderRadius: 10,
+                marginVertical: 10
+            }}
         />
+
+        <Text style={styles.note}>
+            <Text>If You Don't Received Code! </Text> 
+            <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('home')}>
+                <Text style={styles.linkText}> Resend</Text>
+            </TouchableOpacity>
+        </Text>
 
         {/* Button */}
         <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('home')}>
-          <Text style={styles.btnText}>RECOVER PASSWORD</Text>
+          <Text style={styles.btnText}> VERIFY AND PROCEED</Text>
         </TouchableOpacity>
       </View>
 
@@ -114,7 +126,7 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     lineHeight: 18,
-    marginBottom: 18,
+    marginBottom: 15
   },
   mainButton: {
     backgroundColor: "#1b71d2",
@@ -176,5 +188,18 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 12,
     fontWeight: "600",
+  },
+  note: {
+    fontSize: 8,
+    color: "#fff",
+    marginBottom: 30
+  },
+  link: {
+
+  },
+  linkText: {
+    fontSize: 8,
+    color: "#2ea8ff",
+    lineHeight: 7
   }
 });

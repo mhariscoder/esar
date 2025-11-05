@@ -2,15 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import LoginLogo from "./../../assets/images/login-logo.png";
 
 export default function DigitalDocumentsScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
 
-      {/* Back Button */}
-      <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-        <Icon name="arrow-left" size={22} color="#fff" />
-      </TouchableOpacity>
+      {/* Logo */}
+      <Image source={LoginLogo} style={styles.logo} />
 
       {/* Logo */}
       {/* <View style={styles.logoWrapper}>
@@ -18,59 +17,60 @@ export default function DigitalDocumentsScreen({ navigation }) {
         <Image source={require("../assets/flag.png")} style={styles.flag} />
       </View> */}
 
-      {/* Description */}
-      <Text style={styles.description}>
-        Easily access your digital ID card, certification letter, 
-        and certificate.
-      </Text>
+      <View style={styles.innercontainer}>
+        {/* Description */}
+        <Text style={styles.description}>
+          Easily access your digital ID card, certification letter, 
+          and certificate.
+        </Text>
 
-      {/* Documents Button */}
-      <TouchableOpacity style={styles.mainButton}>
-        <Text style={styles.mainButtonText}>DIGITAL DOCUMENTS</Text>
-      </TouchableOpacity>
-
-      {/* Document Buttons */}
-      <View style={styles.cardList}>
-
-        {/* Active Card */}
-        <TouchableOpacity style={[styles.card, styles.cardActive]}>
-          <MaterialIcon name="card-account-details-outline" size={24} color="#fff" />
-          <Text style={styles.cardText}>ESA ID CARD</Text>
-          <Icon name="chevron-right" size={20} color="#fff" />
+        {/* Documents Button */}
+        <TouchableOpacity style={styles.mainButton}>
+          <Text style={styles.mainButtonText}>DIGITAL DOCUMENTS</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.card}>
-          <MaterialIcon name="file-certificate-outline" size={24} color="#fff" />
-          <Text style={styles.cardText}>ESA CERTIFICATION LETTER</Text>
-        </TouchableOpacity>
+        {/* Document Buttons */}
+        <View style={styles.cardList}>
 
-        <TouchableOpacity style={styles.card}>
-          <MaterialIcon name="certificate" size={24} color="#fff" />
-          <Text style={styles.cardText}>ESA CERTIFICATE</Text>
-        </TouchableOpacity>
+          {/* Active Card */}
+          <TouchableOpacity style={[styles.card, styles.cardActive]}>
+            <MaterialIcon name="card-account-details-outline" size={24} color="#fff" />
+            <Text style={styles.cardText}>ESA ID CARD</Text>
+            <Icon name="chevron-right" size={20} color="#fff" />
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.card}>
-          <MaterialIcon name="airplane" size={24} color="#fff" />
-          <Text style={styles.cardText}>ESA TRAVEL LETTER</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.card}>
+            <MaterialIcon name="file-certificate-outline" size={24} color="#fff" />
+            <Text style={styles.cardText}>ESA CERTIFICATION LETTER</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.card}>
-          <MaterialIcon name="home-city-outline" size={24} color="#fff" />
-          <Text style={styles.cardText}>ESA ACCOMMODATION LETTER</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.card}>
+            <MaterialIcon name="certificate" size={24} color="#fff" />
+            <Text style={styles.cardText}>ESA CERTIFICATE</Text>
+          </TouchableOpacity>
 
+          <TouchableOpacity style={styles.card}>
+            <MaterialIcon name="airplane" size={24} color="#fff" />
+            <Text style={styles.cardText}>ESA TRAVEL LETTER</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.card}>
+            <MaterialIcon name="home-city-outline" size={24} color="#fff" />
+            <Text style={styles.cardText}>ESA ACCOMMODATION LETTER</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#031a44",
-    padding: 20,
-    paddingTop: 50,
+    backgroundColor: "#14135F",
     flexGrow: 1,
+  },
+  innercontainer: {
+    padding: 20,
   },
   backBtn: {
     width: 32,
@@ -80,6 +80,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#0a2f63",
     marginBottom: 20,
+    position: 'absolute',
+    zIndex: 999
   },
   logoWrapper: {
     alignItems: "center",
@@ -87,10 +89,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: '100%',
+    height: 200,
     resizeMode: "contain",
+    marginTop: 30
   },
+  // logo: {
+  //   width: 150,
+  //   height: 150,
+  //   resizeMode: "contain",
+  // },
   flag: {
     width: 45,
     height: 45,
@@ -109,7 +117,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   mainButton: {
-    backgroundColor: "#1b71d2",
+    backgroundColor: "#2ea8ff",
     alignSelf: "center",
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -125,7 +133,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   card: {
-    backgroundColor: "#062b62",
+    backgroundColor: "#1689FE1F",
     flexDirection: "row",
     alignItems: "center",
     padding: 15,

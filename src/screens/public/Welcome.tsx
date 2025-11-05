@@ -61,21 +61,23 @@ const styles = StyleSheet.create({
         
     },
     image: {
-
+        width: "100%"
     },
     buttonViewContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 20
     },
     button: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#1E90FF', // Blue color
-        paddingVertical: 12,
+        paddingVertical: 15,
         paddingHorizontal: 20,
         borderRadius: 30,
         elevation: 5,
+        width: "100%"
     },
     buttonText: {
         color: 'white',

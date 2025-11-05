@@ -1,285 +1,231 @@
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import {
-    Image,
-    TextInput,
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    ScrollView,
-} from 'react-native';
-import BuddyContainer from '../../components/BuddyContainer';
-import { colors, screenHeight, screenWidth } from '../../utils/Constants';
-import BuddyCard from '../../components/BuddyCard';
-import BuddyButton from '../../components/BuddyButton';
-import BuddyLang from '../../components/BuddyLang';
-import { useNavigation } from '@react-navigation/native';
-import OTPTextView from 'react-native-otp-textinput';
-import { ResetPassword } from '../../store/actions/auth';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from "react-native";
+import Icon from "react-native-vector-icons/Feather";
+import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
-function ResetYourPassword(): React.JSX.Element {
-    const navigation = useNavigation();
-    const {
-        handleSubmit,
-        formState: { errors },
-        setValue,
-        register,
-    } = useForm();
-
-    const [uniqueID, setUniqueID] = useState('');
-    const [passwordSecure, setPasswordSecure] = useState(true);
-    const [confirmPasswordSecure, setConfirmPasswordSecure] = useState(true);
-
-    useEffect(() => {
-        register('uniqueID', {
-            required: 'OTP is required',
-            minLength: {
-                value: 6,
-                message: 'OTP must be 6 digits',
-            },
-        });
-        register('password', {
-            required: 'Password is required',
-            minLength: {
-                value: 6,
-                message: 'Password must be at least 6 characters',
-            },
-        });
-        register('confirmPassword', {
-            required: 'Confirm password is required',
-            minLength: {
-                value: 6,
-                message: 'Confirm password must be at least 6 characters',
-            },
-        });
-    }, [register]);
-
-    const onSubmit = (data: any) => {
-        ResetPassword(data).then(() => {
-            navigation.navigate('password-reset-successfully');
-        });
-    };
+export default function ResetYourPasswordScreen({ navigation }) {
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confirmedPasswordVisible, setConfirmedPasswordVisible] = useState(false);
 
     return (
-        // <ScrollView keyboardShouldPersistTaps="handled">
-            <BuddyContainer>
-                <View style={styles.cardContainer}>
-                    <BuddyCard
-                        cardStyle={{
-                            height: screenHeight,
-                            width: screenWidth,
-                        }}
-                        purpleCut={true}
-                    >
-                        <View style={styles.logoContainer}>
-                            <Image
-                                style={styles.logo}
-                                source={require('./../../assets/images/logo.png')}
-                            />
-                        </View>
+        <ScrollView contentContainerStyle={styles.container}>
 
-                        <View style={styles.typoContainer}>
-                            <Text style={styles.typoTitle}>Reset your Password</Text>
-                            <Text style={styles.typoPara}>Enter your new password</Text>
-                        </View>
+        <View style={styles.pageTitleContainer}>
+            {/* Back Button */}
+            <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
+            <Icon name="arrow-left" size={22} color="#fff" />
+            </TouchableOpacity>
 
-                        {/* Password Field */}
-                        <View style={styles.inputContainer}>
-                            <View style={styles.passwordWrapper}>
-                                <TextInput
-                                    style={[styles.input, { flex: 1, borderWidth: 0 }]}
-                                    placeholder="Enter your password"
-                                    secureTextEntry={passwordSecure}
-                                    onChangeText={(text) => setValue('password', text)}
-                                />
-                                <TouchableOpacity
-                                    onPress={() => setPasswordSecure(!passwordSecure)}
-                                    style={styles.eyeIconTouchable}
-                                >
-                                    <Image
-                                        style={styles.eyeIcon}
-                                        source={
-                                            passwordSecure
-                                                ? require('./../../assets/images/close-eye.png')
-                                                : require('./../../assets/images/open-eye.png')
-                                        }
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            {errors.password && (
-                                <Text style={styles.errorText}>{errors.password.message}</Text>
-                            )}
-                        </View>
+            {/* PAGE TITLE */}
+            <Text style={styles.pageTitle}>RESET PASSWORD</Text>
+        </View>
 
-                        {/* Confirm Password Field */}
-                        <View style={styles.inputContainer}>
-                            <View style={styles.passwordWrapper}>
-                                <TextInput
-                                    style={[styles.input, { flex: 1, borderWidth: 0 }]}
-                                    placeholder="Confirm your password"
-                                    secureTextEntry={confirmPasswordSecure}
-                                    onChangeText={(text) => setValue('confirmPassword', text)}
-                                />
-                                <TouchableOpacity
-                                    onPress={() =>
-                                        setConfirmPasswordSecure(!confirmPasswordSecure)
-                                    }
-                                    style={styles.eyeIconTouchable}
-                                >
-                                    <Image
-                                        style={styles.eyeIcon}
-                                        source={
-                                            confirmPasswordSecure
-                                                ? require('./../../assets/images/close-eye.png')
-                                                : require('./../../assets/images/open-eye.png')
-                                        }
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            {errors.confirmPassword && (
-                                <Text style={styles.errorText}>
-                                    {errors.confirmPassword.message}
-                                </Text>
-                            )}
-                        </View>
+        <View style={styles.innercontainer}>
+            {/* Title */}
+            <Text style={styles.title}>
+                ENTER NEW PASSWORD
+            </Text>
 
-                        {/* OTP / uniqueID Field */}
-                        <View style={styles.otpContainer}>
-                            <Text style={styles.typoPara}>Enter the OTP sent to your email</Text>
-                            <OTPTextView
-                                inputCount={6}
-                                handleTextChange={(val) => {
-                                    setUniqueID(val);
-                                    setValue('uniqueID', val, { shouldValidate: true });
-                                }}
-                                textInputStyle={{
-                                    backgroundColor: '#F3F3F3',
-                                    borderBottomWidth: 0,
-                                    width: 42,
-                                    height: 42,
-                                    borderRadius: 8,
-                                }}
-                            />
-                            {errors.uniqueID && (
-                                <Text style={styles.errorText}>{errors.uniqueID.message}</Text>
-                            )}
+            {/* Description */}
+            <Text style={styles.description}>
+                Your New Password Must Be Different From Previously Used Password.
+            </Text>
 
-                            <View style={styles.otpNoteContainer}>
-                                <Text style={styles.otpPara}>Did not receive OTP?</Text>
-                                <TouchableOpacity>
-                                    <Text style={styles.otpButtonText}>RESEND</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
+            {/* Password */}
+            <Text style={styles.label}>PASSWORD*</Text>
+            <View style={styles.passwordBox}>
+                <TextInput
+                placeholder="***********"
+                placeholderTextColor="#9bb1d9"
+                secureTextEntry={!passwordVisible}
+                style={styles.inputPassword}
+                />
+                <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
+                {
+                    passwordVisible ?
+                    <Image style={[styles.eyeIcon]} source={require('./../../assets/images/close-eye.png')} /> :
+                    <Image style={[styles.eyeIcon]} source={require('./../../assets/images/open-eye.png')} />
+                }
+                </TouchableOpacity>
+            </View>
 
-                        <BuddyButton
-                            title="Reset Password"
-                            onPress={handleSubmit(onSubmit)}
-                            style={styles.buttonBuddy}
-                        />
+            {/* Password */}
+            <Text style={styles.label}>CONFIRMED PASSWORD*</Text>
+            <View style={styles.passwordBox}>
+                <TextInput
+                placeholder="***********"
+                placeholderTextColor="#9bb1d9"
+                secureTextEntry={!confirmedPasswordVisible}
+                style={styles.inputPassword}
+                />
+                <TouchableOpacity onPress={() => setConfirmedPasswordVisible(!confirmedPasswordVisible)}>
+                {
+                    confirmedPasswordVisible ?
+                    <Image style={[styles.eyeIcon]} source={require('./../../assets/images/close-eye.png')} /> :
+                    <Image style={[styles.eyeIcon]} source={require('./../../assets/images/open-eye.png')} />
+                }
+                </TouchableOpacity>
+            </View>
 
-                        <BuddyLang
-                            onPress={() => navigation.navigate('preferred-language')}
-                            style={styles.langBuddy}
-                        />
-                    </BuddyCard>
-                </View>
-            </BuddyContainer>
-        // </ScrollView>
+            {/* Button */}
+            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('home')}>
+            <Text style={styles.btnText}>CHANGE PASSWORD</Text>
+            </TouchableOpacity>
+        </View>
+
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    cardContainer: {
-        marginTop: 100,
-    },
-    logoContainer: {
-        alignItems: 'center',
-    },
-    logo: {
-        width: screenWidth * 0.7,
-        height: 50,
-        objectFit: 'contain',
-        marginTop: 70,
-    },
-    typoContainer: {
-        alignItems: 'center',
-        marginTop: 40,
-    },
-    typoTitle: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginBottom: 5,
-        fontSize: 14,
-    },
-    typoPara: {
-        textAlign: 'center',
-        marginBottom: 5,
-        fontSize: 14,
-        lineHeight: 24,
-    },
-    inputContainer: {
-        marginBottom: 10,
-        width: screenWidth * 0.85,
-        alignSelf: 'center',
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: colors.pink,
-        padding: 10,
-        borderRadius: 5,
-        height: 50,
-        backgroundColor: '#fff',
-    },
-    errorText: {
-        color: 'red',
-        fontSize: 12,
-    },
-    buttonBuddy: {
-        alignSelf: 'center',
-        width: screenWidth * 0.85,
-        marginTop: 30,
-    },
-    langBuddy: {
-        alignSelf: 'center',
-        marginTop: 30,
-    },
-    otpContainer: {
-        marginTop: 15,
-        paddingHorizontal: 25,
-        alignSelf: 'center',
-    },
-    otpNoteContainer: {
-        flexDirection: 'row',
-        gap: 5,
-    },
-    otpPara: {
-        fontSize: 14,
-    },
-    otpButtonText: {
-        color: colors.pink,
-    },
-    passwordWrapper: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderWidth: 1,
-        borderColor: colors.pink,
-        borderRadius: 5,
-        paddingHorizontal: 10,
-        // height: 50,
-        marginTop: 5,
-    },
-    eyeIconTouchable: {
-        paddingHorizontal: 8,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    eyeIcon: {
-        width: 20,
-        height: 20,
-        resizeMode: 'contain',
-    },
+  container: {
+    backgroundColor: "#14135F",
+    padding: 20,
+    paddingTop: 50,
+    flexGrow: 1,
+  },
+  pageTitleContainer: {
+    position: 'relative'
+  },
+  pageTitle: {
+    color: "#1689FE",
+    fontSize: 20,
+    fontWeight: 600,
+    lineHeight: 24,
+    textAlign: 'center'
+  },
+  innercontainer: {
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1689FE1F",
+    marginBottom: 20,
+    position: 'absolute',
+    zIndex: 999
+  },
+  logoWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+  logo: {
+    width: 150,
+    height: 150,
+    resizeMode: "contain",
+  },
+  flag: {
+    width: 45,
+    height: 45,
+    position: "absolute",
+    right: 60,
+    top: 20,
+    borderRadius: 50,
+  },
+  title: {
+    color: "#d3e4ff",
+    fontSize: 14,
+    textAlign: "center",
+    width: "90%",
+    alignSelf: "center",
+    lineHeight: 18,
+    marginBottom: 5,
+    fontWeight: 600
+  },
+  description: {
+    color: "#d3e4ff",
+    fontSize: 10,
+    textAlign: "center",
+    width: "90%",
+    alignSelf: "center",
+    lineHeight: 18,
+    marginBottom: 18,
+  },
+  mainButton: {
+    backgroundColor: "#1b71d2",
+    alignSelf: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+    marginBottom: 25,
+  },
+  mainButtonText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 12,
+  },
+  cardList: {
+    gap: 12,
+  },
+  card: {
+    backgroundColor: "#1689FE1F",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 15,
+    borderRadius: 10,
+    gap: 12,
+  },
+  cardActive: {
+    backgroundColor: "#2ea8ff",
+  },
+  cardText: {
+    flex: 1,
+    color: "#fff",
+    fontWeight: "600",
+  },
+  label: {
+    color: "#9bb1d9",
+    alignSelf: "flex-start",
+    marginBottom: 5,
+    fontSize: 12,
+    marginTop: 10,
+  },
+  input: {
+    backgroundColor: "#1689FE1F",
+    width: "100%",
+    height: 45,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    color: "#fff",
+    marginBottom: 30,
+  },
+  btn: {
+    backgroundColor: "#2ea8ff",
+    paddingVertical: 15,
+    width: "75%",
+    alignItems: "center",
+    borderRadius: 30,
+    marginTop: 30
+  },
+  btnText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  passwordBox: {
+    backgroundColor: "#1689FE1F",
+    width: "100%",
+    height: 45,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    marginBottom: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  inputPassword: {
+    flex: 1,
+    color: "#fff",
+  },
+  eyeIcon: {
+    paddingHorizontal: 8,
+    width: 20,
+    resizeMode: 'contain'
+  },
 });
-
-export default ResetYourPassword;

@@ -10,6 +10,8 @@ import PasswordUpdatedSuccessfully from '../../screens/public/PasswordUpdatedSuc
 import PasswordResetSuccessfully from '../../screens/public/PasswordResetSuccessfully';
 import PreferredLanguage from '../../screens/public/PreferredLanguage';
 import Home from '../../screens/private/Home';
+import EmailVerificationScreen from '../../screens/public/EmailVerification';
+import ResetYourPasswordScreen from '../../screens/public/ResetYourPassword';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,11 +24,8 @@ const PublicNavigation = () => {
           <Stack.Screen name={'welcome'} component={Welcome} />
           <Stack.Screen name={'login'} component={Login} />
           <Stack.Screen name={'forgot-password'} component={ForgotPassword} />
-          <Stack.Screen name={'change-password'} component={ChangePassword} />
-          <Stack.Screen name={'reset-your-password'} component={ResetYourPassword} />
-          <Stack.Screen name={'password-updated-successfully'} component={PasswordUpdatedSuccessfully} />
-          <Stack.Screen name={'password-reset-successfully'} component={PasswordResetSuccessfully} />
-          <Stack.Screen name={'preferred-language'} component={PreferredLanguage} />
+          <Stack.Screen name={'email-verification'} component={EmailVerificationScreen} />
+          <Stack.Screen name={'reset-your-password'} component={ResetYourPasswordScreen} />
           <Stack.Screen name={'home'} component={Home} />
       </Stack.Navigator>
     </>
