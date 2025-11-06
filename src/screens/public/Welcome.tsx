@@ -31,7 +31,7 @@ import BuddyCard from '../../components/BuddyCard';
 import BuddyButton from '../../components/BuddyButton';
 import BuddyLang from '../../components/BuddyLang';
 import { useNavigation } from '@react-navigation/native';
-// import WelcomeImage from "./../../assets/images/welcome.jpg";
+import Bg from "./../../assets/images/bg3.png";
 import WelcomeImage from "./../../assets/images/big-logo.png";
 import SlidearrowImage from "./../../assets/images/slide-arrow.png";
 
@@ -41,6 +41,7 @@ function Welcome(): React.JSX.Element {
     return <>
         <ScrollView style={styles.imageViewContainer} keyboardShouldPersistTaps="handled">
             <View style={styles.imageView}>
+                <Image source={Bg} style={styles.bg} />
                 <Image source={WelcomeImage} style={styles.image} />
             </View>
 
@@ -59,8 +60,19 @@ const styles = StyleSheet.create({
     imageViewContainer: {
         backgroundColor: '#17135c',
     },
-    image: {
+    imageView: {
+        position: 'relative'
+    },
+    bg: {
+        position: 'absolute',
+        height: screenHeight - 100,
         width: screenWidth,
+        display: 'none'
+    },
+    image: {
+        width: screenWidth - 15,
+        resizeMode: 'contain',
+        marginHorizontal: 'auto'
     },
     buttonViewContainer: {
         flex: 1,

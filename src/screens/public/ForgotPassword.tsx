@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   mainButtonText: {
     color: "#fff",
     fontWeight: "600",
-    fontSize: 12,
+    fontSize: 10,
   },
   cardList: {
     gap: 12,

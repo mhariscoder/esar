@@ -4,7 +4,8 @@ import Icon from 'react-native-vector-icons/Feather';
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 // import LoginLogo from "./../../assets/images/login-logo.png";
-import LogoSmall from "./../../assets/images/logo-small.png";
+import LogoBig from "./../../assets/images/big-logo.png";
+// import LogoSmall from "./../../assets/images/logo-small.png";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -12,11 +13,19 @@ export default function LoginScreen() {
   const [region, setRegion] = useState("");
   const [selectedValue, setSelectedValue] = useState('');
 
+  const onLoginAction = () => {
+    if(selectedValue != "") {
+      navigation.navigate('home', {
+        country: selectedValue
+      })
+    }
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       
       {/* Logo */}
-      <Image source={LogoSmall} style={styles.logo} />
+      <Image source={LogoBig} style={styles.logo} />
 
       <Text style={styles.slogan}>
         "COMPASSION, COMFORT, CONNECTION"
@@ -64,16 +73,17 @@ export default function LoginScreen() {
             selectedValue={selectedValue}
             onValueChange={(itemValue) => setSelectedValue(itemValue)}
             style={styles.picker}
+            dropdownIconColor="#fff"
           >
             <Picker.Item style={styles.pickerItemText} label="Select Your Region" value="" />
             <Picker.Item style={styles.pickerItemText} label="USA" value="usa" />
-            <Picker.Item style={styles.pickerItemText} label="Canada" value="canada" />
+            <Picker.Item style={styles.pickerItemText} label="EU" value="eu" />
             <Picker.Item style={styles.pickerItemText} label="UK" value="uk" />
           </Picker>
         </View>
 
         {/* Login Button */}
-        <TouchableOpacity style={styles.loginBtn} onPress={() => navigation.navigate('home')}>
+        <TouchableOpacity style={styles.loginBtn} onPress={() => onLoginAction()}>
           <Text style={styles.loginBtnText}>LOG IN</Text>
         </TouchableOpacity>
 
@@ -187,7 +197,6 @@ const styles = StyleSheet.create({
   },
   pickerItemText: {
     fontSize: 12,
-    color: "#fff",
   },
   loginBtn: {
     backgroundColor: "#2ea8ff",
