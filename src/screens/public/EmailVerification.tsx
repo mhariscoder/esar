@@ -1,8 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import OTPTextView from "react-native-otp-textinput";
-import Icon from "react-native-vector-icons/Feather";
-import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import Back from "./../../assets/images/back.png";
 
 export default function EmailVerificationScreen({ navigation }) {
   return (
@@ -11,7 +10,7 @@ export default function EmailVerificationScreen({ navigation }) {
       <View style={styles.pageTitleContainer}>
         {/* Back Button */}
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={22} color="#fff" />
+          <Image source={Back} style={styles.back} />
         </TouchableOpacity>
 
         {/* PAGE TITLE */}
@@ -32,17 +31,18 @@ export default function EmailVerificationScreen({ navigation }) {
         <OTPTextView
             inputCount={4}
             textInputStyle={{
-                backgroundColor: '#1689FE1F',
-                borderBottomWidth: 0,
-                width: 42,
-                height: 42,
-                borderRadius: 10,
-                marginVertical: 10
+              backgroundColor: '#1689FE1F',
+              borderBottomWidth: 0,
+              width: 54,
+              height: 45,
+              borderRadius: 10,
+              marginVertical: 10,
+              color: '#fff'
             }}
         />
 
         <Text style={styles.note}>
-            <Text>If You Don't Received Code! </Text> 
+            <Text style={styles.text}>If You Don't Received Code! </Text> 
             <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('home')}>
                 <Text style={styles.linkText}> Resend</Text>
             </TouchableOpacity>
@@ -61,12 +61,13 @@ export default function EmailVerificationScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#14135F",
-    padding: 20,
+    padding: 15,
     paddingTop: 50,
     flexGrow: 1,
   },
   pageTitleContainer: {
-    position: 'relative'
+    position: 'relative',
+    marginBottom: 15
   },
   pageTitle: {
     color: "#1689FE",
@@ -76,20 +77,20 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   innercontainer: {
-    padding: 20,
+    paddingVertical: 15,
     alignItems: "center",
     justifyContent: "center",
   },
   backBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#1689FE1F",
-    marginBottom: 20,
+    width: 25,
+    height: 25,
     position: 'absolute',
     zIndex: 999
+  },
+  back: {
+    width: 25,
+    height: 25,
+    resizeMode: "contain",
   },
   logoWrapper: {
     alignItems: "center",
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   title: {
-    color: "#d3e4ff",
+    color: "#fff",
     fontSize: 14,
     textAlign: "center",
     width: "90%",
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     fontWeight: 600
   },
   description: {
-    color: "#d3e4ff",
+    color: "#fff",
     fontSize: 10,
     textAlign: "center",
     width: "90%",
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   label: {
-    color: "#9bb1d9",
+    color: "#fff",
     alignSelf: "flex-start",
     marginBottom: 5,
     fontSize: 12,
@@ -175,6 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     color: "#fff",
     marginBottom: 30,
+    fontSize: 12,
   },
   btn: {
     backgroundColor: "#2ea8ff",
@@ -190,9 +192,12 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   note: {
+    flexDirection: 'row',
+    marginBottom: 30,
+  },
+  text: {
     fontSize: 8,
     color: "#fff",
-    marginBottom: 30
   },
   link: {
 
@@ -200,6 +205,7 @@ const styles = StyleSheet.create({
   linkText: {
     fontSize: 8,
     color: "#2ea8ff",
-    lineHeight: 7
+    position: 'relative',
+    top: 2
   }
 });

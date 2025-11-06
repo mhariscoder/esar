@@ -3,18 +3,20 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView 
 import Icon from 'react-native-vector-icons/Feather';
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
-import LoginLogo from "./../../assets/images/login-logo.png";
+// import LoginLogo from "./../../assets/images/login-logo.png";
+import LogoSmall from "./../../assets/images/logo-small.png";
 
 export default function LoginScreen() {
   const navigation = useNavigation();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [region, setRegion] = useState("");
+  const [selectedValue, setSelectedValue] = useState('');
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       
       {/* Logo */}
-      <Image source={LoginLogo} style={styles.logo} />
+      <Image source={LogoSmall} style={styles.logo} />
 
       <Text style={styles.slogan}>
         "COMPASSION, COMFORT, CONNECTION"
@@ -33,7 +35,7 @@ export default function LoginScreen() {
         <Text style={styles.label}>REGISTRATION*</Text>
         <TextInput
           placeholder="example@example.com"
-          placeholderTextColor="#9bb1d9"
+          placeholderTextColor="#fff"
           style={styles.input}
         />
 
@@ -42,7 +44,7 @@ export default function LoginScreen() {
         <View style={styles.passwordBox}>
           <TextInput
             placeholder="***********"
-            placeholderTextColor="#9bb1d9"
+            placeholderTextColor="#fff"
             secureTextEntry={!passwordVisible}
             style={styles.inputPassword}
           />
@@ -57,17 +59,16 @@ export default function LoginScreen() {
 
         {/* Region */}
         <Text style={styles.label}>REGION*</Text>
-        <View style={styles.dropdownContainer}>
+        <View style={styles.pickerContainer}>
           <Picker
-            selectedValue={region}
-            onValueChange={(value) => setRegion(value)}
-            dropdownIconColor="#9bb1d9"
-            style={styles.dropdown}
+            selectedValue={selectedValue}
+            onValueChange={(itemValue) => setSelectedValue(itemValue)}
+            style={styles.picker}
           >
-            <Picker.Item label="Select Your Region" value="" />
-            <Picker.Item label="USA" value="usa" />
-            <Picker.Item label="Canada" value="canada" />
-            <Picker.Item label="UK" value="uk" />
+            <Picker.Item style={styles.pickerItemText} label="Select Your Region" value="" />
+            <Picker.Item style={styles.pickerItemText} label="USA" value="usa" />
+            <Picker.Item style={styles.pickerItemText} label="Canada" value="canada" />
+            <Picker.Item style={styles.pickerItemText} label="UK" value="uk" />
           </Picker>
         </View>
 
@@ -99,23 +100,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#14135F",
   },
   innercontainer: {
-    padding: 20,
+    padding: 15,
     alignItems: "center",
     justifyContent: "center",
   },
   logo: {
-    width: '100%',
-    height: 200,
+    width: 250,
+    height: 250,
     resizeMode: "contain",
-    marginTop: 30
+    marginHorizontal: 'auto'
   },
   slogan: {
-    backgroundColor: "#45b6ff",
+    backgroundColor: "#1689FE",
     color: "#fff",
     fontWeight: "600",
-    marginTop: 15,
     marginBottom: 10,
-    fontSize: 14,
+    fontSize: 16,
     textAlign: "center",
     padding: 10
   },
@@ -127,19 +127,18 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   memberBtn: {
-    backgroundColor: "#2ea8ff",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 6,
+    backgroundColor: "#1689FE",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     marginBottom: 20,
   },
   memberBtnText: {
     color: "#fff",
     fontWeight: "600",
-    fontSize: 13,
+    fontSize: 10,
   },
   label: {
-    color: "#9bb1d9",
+    color: "#fff",
     alignSelf: "flex-start",
     marginBottom: 5,
     fontSize: 12,
@@ -153,6 +152,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     color: "#fff",
     marginBottom: 5,
+    fontSize: 12,
   },
   passwordBox: {
     backgroundColor: "#1689FE1F",
@@ -168,18 +168,26 @@ const styles = StyleSheet.create({
   inputPassword: {
     flex: 1,
     color: "#fff",
+    fontSize: 12,
   },
-  dropdownContainer: {
+  pickerContainer: {
     backgroundColor: "#1689FE1F",
     borderRadius: 8,
     width: "100%",
     marginBottom: 20,
-    fontSize: 14
-  },
-  dropdown: {
+    paddingLeft: 15,
+    fontSize: 12,
     color: "#fff",
+  },
+  picker: {
     width: "100%",
-    fontSize: 14
+    borderRadius: 8,
+    color: "#fff",
+    fontSize: 12,
+  },
+  pickerItemText: {
+    fontSize: 12,
+    color: "#fff",
   },
   loginBtn: {
     backgroundColor: "#2ea8ff",
@@ -204,4 +212,5 @@ const styles = StyleSheet.create({
     width: 20,
     resizeMode: 'contain'
   },
+  
 });

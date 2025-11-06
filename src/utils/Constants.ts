@@ -19,7 +19,7 @@ export const colors = {
 };
 
 export const routes = {
-    baseUrl: `https://stage-api.nerdybuddy.com/`,
+    baseUrl: `https://stage-api.esar.com/`,
     login: `api/auth/login`,
     forgotPassword: `api/auth/forgetPassword`,
     resetPassword: `api/auth/resetPassword`,

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from "react-native";
-import Icon from "react-native-vector-icons/Feather";
-import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import Back from "./../../assets/images/back.png";
 
 export default function ResetYourPasswordScreen({ navigation }) {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -13,12 +12,12 @@ export default function ResetYourPasswordScreen({ navigation }) {
         <View style={styles.pageTitleContainer}>
             {/* Back Button */}
             <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
-            <Icon name="arrow-left" size={22} color="#fff" />
+              <Image source={Back} style={styles.back} />
             </TouchableOpacity>
-
+    
             {/* PAGE TITLE */}
             <Text style={styles.pageTitle}>RESET PASSWORD</Text>
-        </View>
+          </View>
 
         <View style={styles.innercontainer}>
             {/* Title */}
@@ -36,7 +35,7 @@ export default function ResetYourPasswordScreen({ navigation }) {
             <View style={styles.passwordBox}>
                 <TextInput
                 placeholder="***********"
-                placeholderTextColor="#9bb1d9"
+                placeholderTextColor="#fff"
                 secureTextEntry={!passwordVisible}
                 style={styles.inputPassword}
                 />
@@ -54,7 +53,7 @@ export default function ResetYourPasswordScreen({ navigation }) {
             <View style={styles.passwordBox}>
                 <TextInput
                 placeholder="***********"
-                placeholderTextColor="#9bb1d9"
+                placeholderTextColor="#fff"
                 secureTextEntry={!confirmedPasswordVisible}
                 style={styles.inputPassword}
                 />
@@ -85,7 +84,8 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   pageTitleContainer: {
-    position: 'relative'
+    position: 'relative',
+    marginBottom: 15
   },
   pageTitle: {
     color: "#1689FE",
@@ -95,29 +95,19 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   innercontainer: {
-    padding: 20,
+    paddingVertical: 15,
     alignItems: "center",
     justifyContent: "center",
   },
   backBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#1689FE1F",
-    marginBottom: 20,
+    width: 25,
+    height: 25,
     position: 'absolute',
     zIndex: 999
   },
-  logoWrapper: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
-  },
-  logo: {
-    width: 150,
-    height: 150,
+  back: {
+    width: 25,
+    height: 25,
     resizeMode: "contain",
   },
   flag: {
@@ -129,7 +119,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   title: {
-    color: "#d3e4ff",
+    color: "#fff",
     fontSize: 14,
     textAlign: "center",
     width: "90%",
@@ -139,7 +129,7 @@ const styles = StyleSheet.create({
     fontWeight: 600
   },
   description: {
-    color: "#d3e4ff",
+    color: "#fff",
     fontSize: 10,
     textAlign: "center",
     width: "90%",
@@ -180,7 +170,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   label: {
-    color: "#9bb1d9",
+    color: "#fff",
     alignSelf: "flex-start",
     marginBottom: 5,
     fontSize: 12,
@@ -194,19 +184,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     color: "#fff",
     marginBottom: 30,
-  },
-  btn: {
-    backgroundColor: "#2ea8ff",
-    paddingVertical: 15,
-    width: "75%",
-    alignItems: "center",
-    borderRadius: 30,
-    marginTop: 30
-  },
-  btnText: {
-    color: "#fff",
     fontSize: 12,
-    fontWeight: "600",
   },
   passwordBox: {
     backgroundColor: "#1689FE1F",
@@ -222,10 +200,24 @@ const styles = StyleSheet.create({
   inputPassword: {
     flex: 1,
     color: "#fff",
+    fontSize: 12,
   },
   eyeIcon: {
     paddingHorizontal: 8,
     width: 20,
     resizeMode: 'contain'
   },
+  btn: {
+    backgroundColor: "#2ea8ff",
+    paddingVertical: 15,
+    width: "75%",
+    alignItems: "center",
+    borderRadius: 30,
+    marginTop: 30
+  },
+  btnText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "600",
+  }
 });

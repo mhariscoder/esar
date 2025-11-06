@@ -31,7 +31,9 @@ import BuddyCard from '../../components/BuddyCard';
 import BuddyButton from '../../components/BuddyButton';
 import BuddyLang from '../../components/BuddyLang';
 import { useNavigation } from '@react-navigation/native';
-import WelcomeImage from "./../../assets/images/welcome.jpg";
+// import WelcomeImage from "./../../assets/images/welcome.jpg";
+import WelcomeImage from "./../../assets/images/big-logo.png";
+import SlidearrowImage from "./../../assets/images/slide-arrow.png";
 
 function Welcome(): React.JSX.Element {
     const navigation = useNavigation();
@@ -45,7 +47,8 @@ function Welcome(): React.JSX.Element {
             <View style={styles.buttonViewContainer}>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('login')}>
                     <Text style={styles.buttonText}>GET STARTED</Text>
-                    <Icon name="arrow-forward" size={20} color="white" />
+                    <View style={styles.line}></View>
+                    <Image source={SlidearrowImage} style={styles.slidearrowImage} />
                 </TouchableOpacity>
             </View>
         </ScrollView>
@@ -55,13 +58,9 @@ function Welcome(): React.JSX.Element {
 const styles = StyleSheet.create({
     imageViewContainer: {
         backgroundColor: '#17135c',
-        
-    },
-    imageView: {
-        
     },
     image: {
-        width: "100%"
+        width: screenWidth,
     },
     buttonViewContainer: {
         flex: 1,
@@ -73,16 +72,30 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#1E90FF', // Blue color
-        paddingVertical: 15,
-        paddingHorizontal: 20,
+        paddingTop: 5,
+        paddingBottom: 5,
+        paddingRight: 5,
+        paddingLeft: 15,
         borderRadius: 30,
         elevation: 5,
         width: "100%"
     },
     buttonText: {
         color: 'white',
-        fontSize: 16,
-        marginRight: 10
+        fontSize: 16
+    },
+    slidearrowImage: {
+        width: 50,
+        height: 50,
+        objectFit: 'contain',
+        marginLeft: 'auto',
+
+    },
+    line: {
+        backgroundColor: '#17135c',
+        height: 1,
+        flexGrow: 1,
+        marginHorizontal: 10
     }
 });
 

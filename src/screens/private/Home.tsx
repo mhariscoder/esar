@@ -3,13 +3,23 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from "rea
 import Icon from "react-native-vector-icons/Feather";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import LoginLogo from "./../../assets/images/login-logo.png";
+import LogoUSA from "./../../assets/images/logo-usa.png";
+import Back from "./../../assets/images/back.png";
 
 export default function DigitalDocumentsScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
 
-      {/* Logo */}
-      <Image source={LoginLogo} style={styles.logo} />
+      <View style={styles.pageTitleContainer}>
+        {/* Back Button */}
+        <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
+          <Image source={Back} style={styles.back} />
+        </TouchableOpacity>
+
+        {/* Logo */}
+        <Image source={LogoUSA} style={styles.logo} />
+      </View>
+      
 
       {/* Logo */}
       {/* <View style={styles.logoWrapper}>
@@ -39,60 +49,43 @@ export default function DigitalDocumentsScreen({ navigation }) {
             <Icon name="chevron-right" size={20} color="#fff" />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.card}>
-            <MaterialIcon name="file-certificate-outline" size={24} color="#fff" />
-            <Text style={styles.cardText}>ESA CERTIFICATION LETTER</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.card}>
-            <MaterialIcon name="certificate" size={24} color="#fff" />
-            <Text style={styles.cardText}>ESA CERTIFICATE</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.card}>
-            <MaterialIcon name="airplane" size={24} color="#fff" />
-            <Text style={styles.cardText}>ESA TRAVEL LETTER</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.card}>
-            <MaterialIcon name="home-city-outline" size={24} color="#fff" />
-            <Text style={styles.cardText}>ESA ACCOMMODATION LETTER</Text>
-          </TouchableOpacity>
         </View>
+        
       </View>
     </ScrollView>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#14135F",
     flexGrow: 1,
-  },
-  innercontainer: {
     padding: 20,
   },
-  backBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#0a2f63",
-    marginBottom: 20,
-    position: 'absolute',
-    zIndex: 999
+  innercontainer: {
+    paddingVertical: 15,
   },
-  logoWrapper: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
+  pageTitleContainer: {
+    position: 'relative',
+    // marginBottom: 15
+  },
+  backBtn: {
+    width: 25,
+    height: 25,
+    position: 'absolute',
+    zIndex: 999,
+  },
+  back: {
+    width: 25,
+    height: 25,
+    resizeMode: "contain",
   },
   logo: {
-    width: '100%',
-    height: 200,
+    width: 250,
+    height: 250,
     resizeMode: "contain",
-    marginTop: 30
+    marginHorizontal: 'auto'
   },
   // logo: {
   //   width: 150,
@@ -117,12 +110,11 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   mainButton: {
-    backgroundColor: "#2ea8ff",
+    backgroundColor: "#1689FE",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    marginBottom: 20,
     alignSelf: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 6,
-    marginBottom: 25,
   },
   mainButtonText: {
     color: "#fff",
