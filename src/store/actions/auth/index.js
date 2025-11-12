@@ -3,208 +3,114 @@ import { routes } from '../../../utils/Constants';
 import { setUserDetails, setToken } from '../../reducers/auth';
 import { store } from '../../store';
 
-export const LoginAPI = async (data) => {
+// Register API
+export const RegisterAPI = async (data) => {
   return new Promise((resolve, reject) => {
-    console.log('routes.login', routes.login)
-    API.post(routes.login, data, {
+    console.log('routes.register', routes.register);
+    API.post(routes.register, data, {
       toast: true,
-      message: 'Login Successfully!'
+      message: 'Registration successful! Please check your email for verification.',
     })
     .then(e => {
-      const respose = e?.data?.data;
-      console.log('respose', respose)
-      store.dispatch(setUserDetails(respose));
-      store.dispatch(setToken(respose?.token));
-
-      resolve(respose);
+      const response = e?.data?.data;
+      console.log('response', response);
+      resolve(response);
     })
     .catch(err => {
       const status = err?.response?.status;
       const errorData = err?.response?.data;
-
-      console.log('LoginAPI err', {
-        status,
-        errorData
-      });
-
-      reject({
-        status,
-        errorData
-      });
-    })
-    .finally(() => {
-      
+      console.log('RegisterAPI err', { status, errorData });
+      reject({ status, errorData });
     });
   });
 };
 
-export const ResetPassword = async (data) => {
+// Login API
+export const LoginAPI = async (data) => {
   return new Promise((resolve, reject) => {
-    API.post(routes.resetPassword, data,  {
+    console.log('routes.login', routes.login);
+    API.post(routes.login, data, {
       toast: true,
-      message: 'Your password has been successfully reset!'
+      message: 'Login Successfully!',
     })
-    .then(res => {
-      resolve(res);
+    .then(e => {
+      const response = e?.data?.data;
+      console.log('response', response);
+      store.dispatch(setUserDetails(response));
+      store.dispatch(setToken(response?.token));
+      resolve(response);
     })
     .catch(err => {
-      reject(err);
-    })
-    .finally(() => {
-      
+      const status = err?.response?.status;
+      const errorData = err?.response?.data;
+      console.log('LoginAPI err', { status, errorData });
+      reject({ status, errorData });
     });
   });
 };
 
+// Forgot Password API
 export const ForgotPasswordAPI = async (data) => {
   return new Promise((resolve, reject) => {
-    API.post(routes.forgotPassword, data,  { toast: true, message: 'Email sent successfully!' })
-    .then(res => {
-      resolve(res);
+    console.log('routes.forgotPassword', routes.forgotPassword);
+    API.post(routes.forgotPassword, data, {
+      toast: true,
+      message: 'OTP sent to your email for password reset.',
+    })
+    .then(e => {
+      const response = e?.data?.data;
+      console.log('response', response);
+      resolve(response);
     })
     .catch(err => {
-      reject(err);
-    })
-    .finally(() => {
-      
+      const status = err?.response?.status;
+      const errorData = err?.response?.data;
+      console.log('ForgotPasswordAPI err', { status, errorData });
+      reject({ status, errorData });
     });
   });
 };
 
-export const ChangePasswordAPI = async (data) => {
+// Verify OTP API
+export const VerifyOtpAPI = async (data) => {
   return new Promise((resolve, reject) => {
-    API.put(routes.changePassword, data,  { toast: true, message: 'Change password successfully!' })
-    .then(res => {
-      resolve(res);
+    console.log('routes.verifyEmail', routes.verifyEmail);
+    API.post(routes.verifyEmail, data, {
+      toast: true,
+      message: 'OTP verified successfully.',
+    })
+    .then(e => {
+      const response = e?.data?.data;
+      console.log('response', response);
+      resolve(response);
     })
     .catch(err => {
-      console.log('err', err)
-      reject(err);
-    })
-    .finally(() => {
-      
+      const status = err?.response?.status;
+      const errorData = err?.response?.data;
+      console.log('VerifyOtpAPI err', { status, errorData });
+      reject({ status, errorData });
     });
   });
-}
+};
 
-export const ResetPasswordByEmailAPI = async (data) => {
+// Reset Password API
+export const ResetPasswordAPI = async (data) => {
   return new Promise((resolve, reject) => {
-    API.post(routes.resetPasswordByEmail, data,  { toast: true, message: 'Change password successfully!' })
-    .then(res => {
-      resolve(res);
+    console.log('routes.resetPassword', routes.resetPassword);
+    API.post(routes.resetPassword, data, {
+      toast: true,
+      message: 'Password reset successfully.',
+    })
+    .then(e => {
+      const response = e?.data?.data;
+      console.log('response', response);
+      resolve(response);
     })
     .catch(err => {
-      console.log('err', err)
-      reject(err);
-    })
-    .finally(() => {
-      
+      const status = err?.response?.status;
+      const errorData = err?.response?.data;
+      console.log('ResetPasswordAPI err', { status, errorData });
+      reject({ status, errorData });
     });
   });
-}
-
-// export const RegisterUserAPI = async (data) => {
-//   API.post(Routes.register, data)
-//     .then(e => {
-//       console.log('LoginAPI res', e?.data);
-
-//       store.dispatch(setUserDetails(e?.data?.data?.user));
-//       store.dispatch(setToken(e?.data?.data?.user?.token));
-//     })
-//     .catch(err => {
-
-//     })
-//     .finally(() => {
-      
-//     });
-// };
-
-// export const VerifyResetPasswordOtp = async (data) => {
-//   return new Promise((resolve, reject) => {
-//     API.post(Routes.verifyResetPasswordOtp, data,  { toast: true })
-//     .then(res => {
-//       resolve(res);
-//     })
-//     .catch(err => {
-//       reject(err);
-//     })
-//     .finally(() => {
-      
-//     });
-//   });
-// };
-
-// export const GetUserInfo = async () => {
-//   return new Promise((resolve, reject) => {
-//     API.get(Routes.user)
-//     .then(e => {
-//       store.dispatch(setUserDetails(e?.data?.data?.user));
-      
-//       resolve(e);
-//     })
-//     .catch(err => {
-//       reject(err);
-//     })
-//     .finally(() => {
-      
-//     });
-//   });
-// };
-
-// export const GetUserProfile = async () => {
-//   return new Promise((resolve, reject) => {
-//     API.get(Routes.userProfile)
-//     .then(e => {
-//       store.dispatch(setUserDetails(e?.data?.data));
-      
-//       resolve(e);
-//     })
-//     .catch(err => {
-//       reject(err);
-//     })
-//     .finally(() => {
-      
-//     });
-//   });
-// };
-
-// export const UpdateUserInfo = async (data) => {
-//   console.log('data', data)
-//   return new Promise((resolve, reject) => {
-//     API.post(Routes.updateUser, data,  { toast: true })
-//     .then(e => {
-//       console.log('e', e)
-//       resolve(e);
-//     })
-//     .catch(err => {
-//       reject(err);
-//     })
-//     .finally(() => {
-      
-//     });
-//   });
-// };
-
-// export const ChangePassword = async (data) => {
-//   return new Promise((resolve, reject) => {
-//     API.post(Routes.changePassword, data,  { toast: true })
-//     .then(res => {
-//       resolve(res);
-//     })
-//     .catch(err => {
-//       reject(err);
-//     })
-//     .finally(() => {
-      
-//     });
-//   });
-// };
-
-// export const DeleteAccountAPI = () => {
-//   return new Promise((resolve, reject) => {
-//       API.post(Routes.deleteAccount, { toast: true })
-//           .then(res => resolve(res))
-//           .catch(err => reject(err))
-//           .finally();
-//   });
-// }
+};

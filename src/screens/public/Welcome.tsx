@@ -46,7 +46,7 @@ function Welcome(): React.JSX.Element {
             </View>
 
             <View style={styles.buttonViewContainer}>
-                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('login')}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('register')}>
                     <Text style={styles.buttonText}>GET STARTED</Text>
                     <View style={styles.line}></View>
                     <Image source={SlidearrowImage} style={styles.slidearrowImage} />

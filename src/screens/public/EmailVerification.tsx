@@ -1,59 +1,105 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Alert } from "react-native";
 import OTPTextView from "react-native-otp-textinput";
 import Back from "./../../assets/images/back.png";
+import { useForm, Controller } from "react-hook-form";
+import { VerifyOtpAPI } from "../../store/actions/auth";
 
-export default function EmailVerificationScreen({ navigation }) {
+export default function EmailVerificationScreen({ navigation, route }) {
+  const { email } = route.params;
+
+  // React Hook Form
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      otp: ""
+    }
+  });
+
+  // Submit OTP
+  const onSubmit = async (data: any) => {
+    const { otp } = data;
+    console.log("Entered OTP:", otp);
+
+    try {
+      const response = await VerifyOtpAPI({ otp, email });
+      console.log("Registration successful:", response);
+      
+      navigation.navigate('login');
+
+      // navigation.navigate('home');
+    } catch (err) {
+      
+    }
+  };
+
+  // Resend OTP
+  const handleResend = () => {
+    // Replace with API call to resend OTP
+    Alert.alert("Resent", "Verification code has been resent to your email.");
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
-
+      {/* Page Header */}
       <View style={styles.pageTitleContainer}>
-        {/* Back Button */}
         <TouchableOpacity style={styles.backBtn} onPress={() => navigation.goBack()}>
           <Image source={Back} style={styles.back} />
         </TouchableOpacity>
-
-        {/* PAGE TITLE */}
         <Text style={styles.pageTitle}>EMAIL VERIFICATION</Text>
       </View>
 
+      {/* Content */}
       <View style={styles.innercontainer}>
-        {/* Title */}
-        <Text style={styles.title}>
-          GET YOUR CODE
-        </Text>
-
-        {/* Description */}
+        <Text style={styles.title}>GET YOUR CODE</Text>
         <Text style={styles.description}>
-          Please Enter The 4 Digit Code That Send To Your Email Address.
+          Please Enter The 4 Digit Code That Was Sent To Your Email Address.
         </Text>
 
-        <OTPTextView
-            inputCount={4}
-            textInputStyle={{
-              backgroundColor: '#1689FE1F',
-              borderBottomWidth: 0,
-              width: 54,
-              height: 45,
-              borderRadius: 10,
-              marginVertical: 10,
-              color: '#fff'
-            }}
+        {/* OTP Input */}
+        <Controller
+          control={control}
+          name="otp"
+          rules={{
+            required: "OTP is required",
+            minLength: { value: 4, message: "OTP must be 4 digits" },
+            maxLength: { value: 4, message: "OTP must be 4 digits" },
+            pattern: { value: /^[0-9]{4}$/, message: "OTP must be numeric" }
+          }}
+          render={({ field: { onChange, value } }) => (
+            <OTPTextView
+              inputCount={4}
+              handleTextChange={onChange}
+              defaultValue={value}
+              inputCellLength={1}
+              containerStyle={{ marginVertical: 10 }}
+              textInputStyle={{
+                backgroundColor: "#1689FE1F",
+                borderBottomWidth: 0,
+                width: 54,
+                height: 45,
+                borderRadius: 10,
+                color: "#fff",
+                fontSize: 18,
+                textAlign: "center",
+              }}
+            />
+          )}
         />
+        {errors.otp && <Text style={styles.errorText}>{errors.otp.message}</Text>}
 
-        <Text style={styles.note}>
-            <Text style={styles.text}>If You Don't Received Code! </Text> 
-            <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('home')}>
-                <Text style={styles.linkText}> Resend</Text>
-            </TouchableOpacity>
-        </Text>
+        {/* Resend Note */}
+        <View style={styles.note}>
+          <Text style={styles.text}>If You Don't Receive Code! </Text>
+          <TouchableOpacity onPress={handleResend}>
+            <Text style={styles.linkText}>Resend</Text>
+          </TouchableOpacity>
+        </View>
 
-        {/* Button */}
-        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate('home')}>
-          <Text style={styles.btnText}> VERIFY AND PROCEED</Text>
+        {/* Verify Button */}
+        <TouchableOpacity style={styles.btn} onPress={handleSubmit(onSubmit)}>
+          <Text style={styles.btnText}>VERIFY AND PROCEED</Text>
         </TouchableOpacity>
       </View>
-
     </ScrollView>
   );
 }
@@ -66,15 +112,15 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   pageTitleContainer: {
-    position: 'relative',
-    marginBottom: 15
+    position: "relative",
+    marginBottom: 15,
   },
   pageTitle: {
     color: "#1689FE",
     fontSize: 20,
-    fontWeight: 600,
+    fontWeight: "600",
     lineHeight: 24,
-    textAlign: 'center'
+    textAlign: "center",
   },
   innercontainer: {
     paddingVertical: 15,
@@ -84,31 +130,13 @@ const styles = StyleSheet.create({
   backBtn: {
     width: 25,
     height: 25,
-    position: 'absolute',
-    zIndex: 999
+    position: "absolute",
+    zIndex: 999,
   },
   back: {
     width: 25,
     height: 25,
     resizeMode: "contain",
-  },
-  logoWrapper: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
-  },
-  logo: {
-    width: 150,
-    height: 150,
-    resizeMode: "contain",
-  },
-  flag: {
-    width: 45,
-    height: 45,
-    position: "absolute",
-    right: 60,
-    top: 20,
-    borderRadius: 50,
   },
   title: {
     color: "#fff",
@@ -118,7 +146,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     lineHeight: 18,
     marginBottom: 5,
-    fontWeight: 600
+    fontWeight: "600",
   },
   description: {
     color: "#fff",
@@ -127,56 +155,7 @@ const styles = StyleSheet.create({
     width: "90%",
     alignSelf: "center",
     lineHeight: 18,
-    marginBottom: 15
-  },
-  mainButton: {
-    backgroundColor: "#1b71d2",
-    alignSelf: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 6,
-    marginBottom: 25,
-  },
-  mainButtonText: {
-    color: "#fff",
-    fontWeight: "600",
-    fontSize: 10,
-  },
-  cardList: {
-    gap: 12,
-  },
-  card: {
-    backgroundColor: "#1689FE1F",
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 15,
-    borderRadius: 10,
-    gap: 12,
-  },
-  cardActive: {
-    backgroundColor: "#2ea8ff",
-  },
-  cardText: {
-    flex: 1,
-    color: "#fff",
-    fontWeight: "600",
-  },
-  label: {
-    color: "#fff",
-    alignSelf: "flex-start",
-    marginBottom: 5,
-    fontSize: 12,
-    marginTop: 10,
-  },
-  input: {
-    backgroundColor: "#1689FE1F",
-    width: "100%",
-    height: 45,
-    paddingHorizontal: 15,
-    borderRadius: 8,
-    color: "#fff",
-    marginBottom: 30,
-    fontSize: 12,
+    marginBottom: 15,
   },
   btn: {
     backgroundColor: "#2ea8ff",
@@ -184,7 +163,7 @@ const styles = StyleSheet.create({
     width: "75%",
     alignItems: "center",
     borderRadius: 30,
-    marginBottom: 10
+    marginBottom: 10,
   },
   btnText: {
     color: "#fff",
@@ -192,20 +171,23 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   note: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 30,
+    alignItems: "center",
   },
   text: {
     fontSize: 8,
     color: "#fff",
   },
-  link: {
-
-  },
   linkText: {
     fontSize: 8,
     color: "#2ea8ff",
-    position: 'relative',
-    top: 2
-  }
+    marginLeft: 5,
+  },
+  errorText: {
+    color: "red",
+    fontSize: 12,
+    marginBottom: 10,
+    alignSelf: "center",
+  },
 });

@@ -3,73 +3,62 @@ import { routes } from './Constants';
 import { store } from '../store/store';
 import { showError, showSuccess } from './Helper';
 import { setLoader } from '../store/reducers/auth';
-import { Alert } from 'react-native';
 
-const API = axios.create({baseURL: routes.baseUrl});
+const API = axios.create({ baseURL: routes.baseUrl });
 
+// 🛰️ REQUEST INTERCEPTOR
 API.interceptors.request.use(config => {
-    const {
-        auth: {token},
-    } = store.getState();
-    
-    config.headers['Authorization'] = `Bearer ${token}`;
-    config.headers['token'] = token;
-    
-    if (config.method === 'get') store.dispatch(setLoader(true));
-  
-   return config;
+  const { auth: { token } } = store.getState();
+
+  config.headers['Authorization'] = `Bearer ${token}`;
+  config.headers['token'] = token;
+
+  const fullUrl = `${config.baseURL.replace(/\/$/, '')}/${config.url.replace(/^\//, '')}`;
+  console.log('📡 Sending request to:', fullUrl);
+
+//   if (config.method === 'get') store.dispatch(setLoader(true));
+
+    store.dispatch(setLoader(true));
+
+  return config;
 });
 
-
-// Add a response interceptor
+// 🧾 RESPONSE INTERCEPTOR
 API.interceptors.response.use(
-    (response) => {
-        store.dispatch(setLoader(false));
+  (response) => {
+    store.dispatch(setLoader(false));
 
-        let toast = response.config.toast;
-        let message = response?.data?.message;
+    const { toast, message: customMsg } = response.config;
+    const message = customMsg || response?.data?.message;
 
-        if(response.config.message) message = response.config.message;
-        if(toast) showSuccess(message)
+    if (toast && message) showSuccess(message);
 
-        return response;
-    },
-    (error) => {
-        store.dispatch(setLoader(false));
+    return response;
+  },
 
-        const errResponse = error.response;
-            
-        if (errResponse) {
-            let object = {};
+  (error) => {
+    store.dispatch(setLoader(false));
 
+    const errResponse = error?.response;
 
-            if(errResponse?.data) object = errResponse.data;
-            if(errResponse?.data?.data) object = errResponse.data?.data;
-            
-            if(typeof object === 'object' && object !== null && object?.length > 0) {
-                for (const key in object) {
-                    if (Object.prototype.hasOwnProperty.call(object, key)) {
-                        const errors = object[key];
-                        if (typeof errors === 'object' && errors !== null) {
-                            for (const e in errors) {
-                                if (Object.prototype.hasOwnProperty.call(errors, e)) {
-                                    const err = errors[e];
-                                    showError(err);
-                                }
-                            }
-                        } else {
-                            showError(element);
-                        }
-                    }
-                }
-            }
-            
-            else if (errResponse?.data?.message) showError(errResponse?.data?.message);
-            else showError(errResponse.message);
-        }
+    if (errResponse?.data) {
+      const data = errResponse.data;
 
-        return Promise.reject(error);
+      // ✅ Extract error message safely
+      const errorMessage =
+        data?.errorData?.message || // case: { errorData: { message: "..." } }
+        data?.message ||             // case: { message: "..." }
+        data?.error ||               // case: { error: "..." }
+        errResponse?.statusText ||   // fallback to HTTP text
+        'Something went wrong';
+
+      showError(errorMessage);
+    } else {
+      showError('Network error. Please check your connection.');
     }
+
+    return Promise.reject(error);
+  }
 );
 
 export default API;

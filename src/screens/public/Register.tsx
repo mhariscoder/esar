@@ -3,28 +3,31 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, ScrollView 
 import { useForm, Controller } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
-import { LoginAPI } from "../../store/actions/auth";
+import { RegisterAPI } from "../../store/actions/auth";
 import LogoBig from "./../../assets/images/big-logo.png";
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const navigation = useNavigation();
-  const { control, handleSubmit, formState: { errors }, setError } = useForm();
+  const { control, handleSubmit, formState: { errors }, setError, watch } = useForm();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
-  // On login submit
-  const onLoginAction = async (data) => {
-    const { email, password } = data;
+  const passwordValue = watch("password"); // For password confirmation validation
+
+  // On register submit
+  const onRegisterAction = async (data) => {
+    console.log('data', data)
+    const { email, password, password_confirmation, region } = data;
 
     try {
-      const response = await LoginAPI({ email, password });
-      console.log("Login successful:", response);
-      // Navigate to home screen after successful login
-
-      navigation.navigate('home', { country: response?.region ?? '' });
+      const response = await RegisterAPI({ email, password, password_confirmation, region });  // API call
+      console.log("Registration successful:", response);
       // navigation.navigate('home', { country: region });
+
+      navigation.navigate('email-verification', { email: email });
     } catch (err) {
-      console.log("Login error:", err);
-      // setError("email", { type: "manual", message: "Invalid credentials" });
+      console.log("Registration error:", err);
+      // setError("email", { type: "manual", message: "Email is already taken or invalid" });
     }
   };
 
@@ -43,8 +46,8 @@ export default function LoginScreen() {
           Welcome to the Emotional Support Animals Registry! Your trusted platform for managing your ESA documentation and membership.
         </Text>
 
-        <TouchableOpacity style={styles.memberBtn} onPress={() => navigation.navigate('register')}>
-          <Text style={styles.memberBtnText}>MEMBER REGISTER</Text>
+        <TouchableOpacity style={styles.memberBtn} onPress={() => navigation.navigate('login')}>
+          <Text style={styles.memberBtnText}>MEMBER LOGIN</Text>
         </TouchableOpacity>
 
         {/* Email */}
@@ -104,8 +107,38 @@ export default function LoginScreen() {
         />
         {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
 
+        {/* Password Confirmation */}
+        <Text style={styles.label}>CONFIRM PASSWORD*</Text>
+        <Controller
+          control={control}
+          rules={{
+            required: "Password confirmation is required",
+            validate: value => value === passwordValue || "Passwords do not match"
+          }}
+          render={({ field: { onChange, value } }) => (
+            <View style={styles.passwordBox}>
+              <TextInput
+                // placeholder="***********"
+                // placeholderTextColor="#fff"
+                secureTextEntry={!confirmPasswordVisible}
+                style={styles.inputPassword}
+                value={value}
+                onChangeText={onChange}
+              />
+              <TouchableOpacity onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
+                {confirmPasswordVisible ?
+                  <Image style={styles.eyeIcon} source={require('./../../assets/images/close-eye.png')} /> :
+                  <Image style={styles.eyeIcon} source={require('./../../assets/images/open-eye.png')} />
+                }
+              </TouchableOpacity>
+            </View>
+          )}
+          name="password_confirmation"
+        />
+        {errors.password_confirmation && <Text style={styles.errorText}>{errors.password_confirmation.message}</Text>}
+
         {/* Region */}
-        {/* <Text style={styles.label}>REGION*</Text>
+        <Text style={styles.label}>REGION*</Text>
         <Controller
           control={control}
           name="region"
@@ -126,23 +159,15 @@ export default function LoginScreen() {
             </View>
           )}
         />
-        {errors.region && <Text style={styles.errorText}>{errors.region.message}</Text>} */}
+        {errors.region && <Text style={styles.errorText}>{errors.region.message}</Text>}
 
-        {/* Login Button */}
-        <TouchableOpacity style={styles.loginBtn} onPress={handleSubmit(onLoginAction)}>
-          <Text style={styles.loginBtnText}>LOG IN</Text>
+        {/* Register Button */}
+        <TouchableOpacity style={styles.loginBtn} onPress={handleSubmit(onRegisterAction)}>
+          <Text style={styles.loginBtnText}>REGISTER</Text>
         </TouchableOpacity>
 
         {/* <TouchableOpacity onPress={() => navigation.navigate('forgot-password')}>
           <Text style={styles.forgotText}>FORGOT PASSWORD</Text>
-        </TouchableOpacity> */}
-
-        {/* <TouchableOpacity onPress={() => navigation.navigate('email-verification')}>
-          <Text style={styles.forgotText}>EMAIL VERIFICATION</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('reset-your-password')}>
-          <Text style={styles.forgotText}>RESET YOUR PASSWORD</Text>
         </TouchableOpacity> */}
         
       </View>
@@ -230,10 +255,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#1689FE1F",
     borderRadius: 8,
     width: "100%",
-    // marginBottom: 20,
     paddingLeft: 15,
     fontSize: 12,
     color: "#fff",
+    // marginBottom: 20,
   },
   picker: {
     width: "100%",

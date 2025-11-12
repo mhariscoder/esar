@@ -3,6 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { screens } from '../../utils/Constants';
 import Welcome from '../../screens/public/Welcome';
 import Login from '../../screens/public/Login';
+import Register from '../../screens/public/Register';
 import ForgotPassword from '../../screens/public/ForgotPassword';
 import Home from '../../screens/private/Home';
 import EmailVerificationScreen from '../../screens/public/EmailVerification';
@@ -17,6 +18,7 @@ const PublicNavigation = () => {
         screenOptions={{headerShown: false}}
         initialRouteName={'welcome'}>
           <Stack.Screen name={'welcome'} component={Welcome} />
+          <Stack.Screen name={'register'} component={Register} />
           <Stack.Screen name={'login'} component={Login} />
           <Stack.Screen name={'forgot-password'} component={ForgotPassword} />
           <Stack.Screen name={'email-verification'} component={EmailVerificationScreen} />

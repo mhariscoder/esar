@@ -3,7 +3,7 @@ import { ActivityIndicator, View} from 'react-native';
 import { screenHeight, screenWidth } from '../utils/Constants';
 import { useSelector } from 'react-redux';
 
-const BuddyFullPageLoading = () => {
+const FullPageLoading = () => {
   const { loader } = useSelector((state) => state.auth);
 
   return (
@@ -15,4 +15,4 @@ const BuddyFullPageLoading = () => {
   );
 };
 
-export default BuddyFullPageLoading;
+export default FullPageLoading;

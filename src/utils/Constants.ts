@@ -19,22 +19,16 @@ export const colors = {
 };
 
 export const routes = {
-    baseUrl: `https://stage-api.esar.com/`,
-    login: `api/auth/login`,
-    forgotPassword: `api/auth/forgetPassword`,
-    resetPassword: `api/auth/resetPassword`,
-    changePassword: `api/auth/tokenPassword`,
-    supportCreate: `api/support/create`,
-    getFeedbackForm: `api/feedback/form`,
-    shareFeedback: `api/feedback/submitFeedback`,
-    resetPasswordByEmail: `api/auth/resetPasswordByEmail`,
+    baseUrl: `https://services83.demowebsitelinks.com/esar-backend/public/api/`,
+    register: `register`,
+    login: `login`,
+    forgotPassword: `forgot-password`,
+    verifyEmail: `verify-email`,
+    resetPassword: `reset-password`,
 
-    streamResponse: `llm/stream_response`,
-    userSessions: `llm/get_user_sessions`,
-    sendRefrenceEmail: `api/client/sendRefrenceEmail`,
-    getDocument: (documentName: String) => {
-        return `api/documents/getDocumentName?search=${documentName}`;
-    },
+    // getDocument: (documentName: String) => {
+    //     return `documents/getDocumentName?search=${documentName}`;
+    // },
 };
 
 export const API = {
